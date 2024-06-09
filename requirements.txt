@@ -1,0 +1,6 @@
+fastapi
+pydantic
+unittest2
+requests
+psycopg2
+logging
