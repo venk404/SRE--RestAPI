@@ -60,9 +60,7 @@ async def delete(id:int):
     else:
         raise HTTPException(status_code=400, detail=res['message'])
 
-@app.get("/HealthCheck",status_code=200)
-async def health():
-    
+
     
 
 if __name__ == '__main__':
