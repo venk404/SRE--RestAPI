@@ -10,28 +10,51 @@ class TestStudentDetailsAPI(unittest.TestCase):
             "age": 20,
             "phone": 1234567890
         }
+        self.id = 0   #Need to change the numbers
 
     def test_post_studentdetails(self):
-        response = requests.post(self.url + '/AddStudent', json=self.student_data)
-
-        # Check if the request was successful
+        response = requests.post(self.url + 'AddStudent', json=self.student_data)
         self.assertEqual(response.status_code, 200)
-
-        # Check the response content if necessary
         response_data = response.json()
-        print(response_data)
 
-    def test_get_studentdetails(self):
+
+    def test_getALLstudentdetails(self):
         response = requests.get(self.url + 'GetAllStudents')
-
-        # Check if the request was successful
         self.assertEqual(response.status_code, 200)
-
-        # Check the response content if necessary
         response_data = response.json()
-        print(response_data)
+
+
+    def test_GetStudenbyid(self):
+        if not hasattr(self, 'id'):
+            self.skipTest("No student ID available for test_GetStudent")
+        url = self.url + f'GetStudent?id={self.id}'
+        response = requests.get(url)
+        self.assertEqual(response.status_code, 200, f"Expected status code 200 but got {response.status_code}")
+        response_data = response.json()
+
+    def test_Update(self):
+        url = self.url + f'UpdateStudent?id={self.id}'
+        response = requests.patch(url,json={'name': 'Ganesh Gaitonde', 'email': 'Gopalmat@gmail.com', 'age': 0, 'phone': 0})
+        self.assertEqual(response.status_code, 200, f"Expected status code 200 but got {response.status_code}")
+        response_data = response.json()
+
+    def test_DeleteStudent(self):
+        if not hasattr(self, 'id'):
+            self.skipTest("No student ID available for test_GetStudent")
+        url = self.url + f'DeleteStudent?id={self.id}'
+        response = requests.delete(url)
+        self.assertEqual(response.status_code, 200, f"Expected status code 200 but got {response.status_code}")
+        response_data = response.json()
+
 
 
 
 if __name__ == "__main__":
-    unittest.main()
+   suite = unittest.TestSuite()
+   suite.addTest(TestStudentDetailsAPI('test_post_studentdetails'))
+   suite.addTest(TestStudentDetailsAPI('test_GetStudenbyid'))
+   suite.addTest(TestStudentDetailsAPI('test_getALLstudentdetails'))
+   suite.addTest(TestStudentDetailsAPI('test_Update'))
+   suite.addTest(TestStudentDetailsAPI('test_DeleteStudent'))
+   runner = unittest.TextTestRunner()
+   runner.run(suite)

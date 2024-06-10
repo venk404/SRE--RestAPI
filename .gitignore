@@ -1,5 +1,0 @@
-.env
-__pycache__/
-DB/data/
-venv
-.gitignore
