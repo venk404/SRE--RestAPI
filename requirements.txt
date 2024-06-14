@@ -1,7 +1,9 @@
 fastapi
 pydantic
 unittest2
+python-dotenv
 psycopg2
 psycopg2-binary
 requests
+
 

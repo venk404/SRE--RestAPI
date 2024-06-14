@@ -6,15 +6,15 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     ports:
-      - 5432:5432  # make sure you don't have another container running on 5432
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"  # make sure you don't have another container running on the same port
 
     environment:
-      - POSTGRES_DB=StudentDB
-      - POSTGRES_USER=studentuser
-      - POSTGRES_PASSWORD=studentuser
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - "8080:8080"
