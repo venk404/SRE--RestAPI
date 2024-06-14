@@ -1,24 +1,25 @@
 from fastapi import FastAPI, HTTPException,APIRouter
 from pydantic import BaseModel,EmailStr,Field,field_validator
-from .Models import insertstudent,get_all_students,get_student_by_Id,delete_student,Update_student
+from Models import insertstudent,get_all_students,get_student_by_Id,delete_student,Update_student
 import uvicorn
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+import logging
 
 
 
 class Student(BaseModel):
     name: str = Field(default=None,examples=["Ganesh Gaitonde"])
     email: EmailStr = Field(default=None, examples=["Gopalmat@gmail.com"])
-    age: int = Field(default=None, examples=[0],min_length=2, max_length=2)
-    phone: int = Field(default=None, examples=[0],min_length=10, max_length=10)
+    age: int | None = Field(default=None, examples=[22])
+    phone: int | None = Field(default=None, examples=[1234567890])
 
 
 class StudentUpdate(BaseModel):
     name: str  | None = Field(default=None,examples=["Ganesh Gaitonde"])
     email: EmailStr | None = Field(default=None, examples=["Gopalmat@gmail.com"])
-    age: str | None = Field(default=None, examples=[22],min_length=2, max_length=2)
-    phone: str | None = Field(default=None, examples=[1234567890], min_length=10,max_length=10)
+    age: int | None = Field(default=None, examples=[22])
+    phone: int | None = Field(default=None, examples=[1234567890])
 
 
 

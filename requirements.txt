@@ -1,6 +1,7 @@
 fastapi
 pydantic
 unittest2
-requests
 psycopg2
-logging
+psycopg2-binary
+requests
+
