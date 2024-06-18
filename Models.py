@@ -2,6 +2,10 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import os
 from dotenv import load_dotenv
+from loguru import logger
+import sys
+
+logger.add(sys.stdout, format="{time} {level} {message}", filter="my_module",backtrace=True)
 
 load_dotenv('.env')
 
@@ -32,6 +36,7 @@ def insertstudent(data: dict):
         return {"status": "success", "message": "Student inserted successfully", "student_id": student_id}
     except psycopg2.Error as e:
         conn.rollback()
+        logger.error(f'error:"{str(e)}')
         return {"status": "error", "message": str(e)}
     
 
@@ -49,6 +54,7 @@ def get_all_students():
             return {"status": "error","message": "No Data Present"}
     except psycopg2.Error as e:
         conn.rollback()
+        logger.error(f'error:"{str(e)}')
         return {"status": "error", "message": str(e)}
 
 def get_student_by_Id(id):
@@ -62,9 +68,10 @@ def get_student_by_Id(id):
         if(students is not None):
             return {"status": "success", "students": students}
         else:
-            return {"status": "success","message": "No Data found"}
+            return {"status": "error","message": "No Data found"}
     except psycopg2.Error as e:
         conn.rollback()
+        logger.error(f'error:"{str(e)}')
         return {"status": "error", "message": str(e)}
     
 def Update_student(id,student):
@@ -96,10 +103,11 @@ def Update_student(id,student):
             if rows_affected > 0:
                 return {"status": "success", "students": "Data is updated"}
             else:
-                return {"status": "Error","message": "No Data found"}
+                return {"status": "error","message": "No Data found"}
 
     except psycopg2.Error as e:
         conn.rollback()
+        logger.error(f'error:"{str(e)}')
         return {"status": "error", "message": str(e)}
 
 
@@ -116,4 +124,7 @@ def delete_student(id):
             return {"status": "error", "message": "Student not found"}
     except psycopg2.Error as e:
         conn.rollback()
+        logger.error(f'error:"{str(e)}')
         return {"status": "error", "message": str(e)}
+
+
