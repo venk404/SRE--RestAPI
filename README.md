@@ -33,6 +33,7 @@ This project is a simple Student Management API built using FastAPI. It allows f
 3) Execute the makeFile command (assuming make is installed on your system). This will initiate the servers and generate the student schema:
 
 ```bash
+  Rename the .env example to .env and fill details for DB schema to create.
   cd ..
   make all
 ```
